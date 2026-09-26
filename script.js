@@ -5,7 +5,11 @@
 
 (() => {
   'use strict';
-
+// ========================================================================== 
+// // GOOGLE OAUTH // ========================================================================== 
+// 
+const GOOGLE_CLIENT_ID = '835700336258-m3unj2ptlv0o7ndhn0eqkj7ljslf42p6.apps.googleusercontent.com';
+//  // =========================================
   const STORAGE_KEY = 'linkvault_urls_v1';
   const STATS_KEY = 'linkvault_stats_v1';
 
