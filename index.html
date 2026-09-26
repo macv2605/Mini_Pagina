@@ -1,1 +1,76 @@
-<!DOCTYPE html> <html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0" > <title>LinkVault · Extractor de URLs</title> <link rel="preconnect" href="https://fonts.googleapis.com" > <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" > <link rel="stylesheet" href="style.css" > <!-- ========================================================= GOOGLE IDENTITY SERVICES ========================================================= --> <script src="https://accounts.google.com/gsi/client" async defer ></script> </head> <body> <!-- ========================================================= BARRA DE NAVEGACIÓN ========================================================= --> <header class="navbar"> <div class="navbar-inner"> <div class="brand"> <div class="brand-icon"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path> </svg> </div> <span class="brand-name"> LinkVault </span> </div> <!-- ================================================= GOOGLE ================================================= --> <div class="google-area"> <button id="googleConnectBtn" class="btn btn-teal" type="button" > Conectar con Google </button> <span id="googleStatus" class="google-status" > No conectado </span> </div> <!-- ================================================= STORAGE ================================================= --> <div id="storageBadge" class="storage-badge hidden" > <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h10l6 6v10z"></path> <polyline points="17 21 17 13 7 13 7 21"></polyline> <polyline points="7 3 7 8 15 8"></polyline> </svg> Guardado en este navegador </div> </div> </header> <!-- ========================================================= CONTENIDO PRINCIPAL ========================================================= --> <main class="container"> <!-- ===================================================== MÉTRICAS ===================================================== --> <section class="stats-grid"> <div class="stat-card" style="--accent:#0ea5b7" > <div class="stat-head"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path> </svg> <span> Total de URLs </span> </div> <div class="stat-value" id="statTotal" > 0 </div> <p class="stat-sub"> sin duplicados </p> </div> <div class="stat-card" style="--accent:#2563eb" > <div class="stat-head"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path> <polyline points="14 2 14 8 20 8"></polyline> </svg> <span> Archivos cargados </span> </div> <div class="stat-value" id="statFiles" > 0 </div> <p class="stat-sub"> .txt procesados </p> </div> <div class="stat-card" style="--accent:#f59e0b" > <div class="stat-head"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" ></circle> <line x1="12" y1="8" x2="12" y2="12" ></line> <line x1="12" y1="16" x2="12.01" y2="16" ></line> </svg> <span> Duplicados evitados </span> </div> <div class="stat-value" id="statDuplicates" > 0 </div> <p class="stat-sub"> no añadidos de nuevo </p> </div> <div class="stat-card" style="--accent:#16a34a" > <div class="stat-head"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" ></circle> <polyline points="12 6 12 12 16 14" ></polyline> </svg> <span> Última actualización </span> </div> <div class="stat-value stat-value-sm" id="statUpdated" > — </div> <p class="stat-sub"> hora local </p> </div> </section> <!-- ===================================================== GOOGLE DRIVE ===================================================== --> <section class="upload-section" id="googleDrivePanel" > <div class="drop-text"> <p> <strong> Google Drive </strong> </p> <p class="drop-hint" id="googleDriveMessage" > Conecta tu cuenta de Google para guardar una copia de los archivos .txt. </p> </div> <div id="googleFolderStatus" class="file-names" ></div> </section> <!-- ===================================================== ZONA DE CARGA ===================================================== --> <section class="upload-section"> <label id="dropZone" for="fileInput" class="drop-zone" > <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="drop-icon" > <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" ></path> <polyline points="17 8 12 3 7 8" ></polyline> <line x1="12" y1="3" x2="12" y2="15" ></line> </svg> <div class="drop-text"> <p> <span class="drop-highlight"> Haz clic para elegir archivos </span> o arrástralos aquí </p> <p class="drop-hint"> Solo archivos .txt · selección múltiple permitida </p> </div> <input id="fileInput" type="file" accept=".txt,text/plain" multiple class="hidden" > </label> <p id="fileNames" class="file-names" ></p> </section> <!-- ===================================================== PANEL DE CONTROL ===================================================== --> <section class="control-panel"> <div class="search-row"> <div class="search-box"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" > <circle cx="11" cy="11" r="8" ></circle> <line x1="21" y1="21" x2="16.65" y2="16.65" ></line> </svg> <input id="searchInput" type="text" placeholder="Filtrar URLs por texto..." > </div> </div> <div class="btn-row"> <button id="openAllBtn" class="btn btn-teal" disabled > <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" ></path> <polyline points="15 3 21 3 21 9" ></polyline> <line x1="10" y1="14" x2="21" y2="3" ></line> </svg> Abrir todas </button> <button id="copyAllBtn" class="btn btn-neutral" disabled > <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect x="9" y="9" width="13" height="13" rx="2" ></rect> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" ></path> </svg> Copiar todas </button> <button id="clearAllBtn" class="btn btn-danger btn-push-right" disabled > <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <polyline points="3 6 5 6 21 6" ></polyline> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" ></path> </svg> Limpiar lista </button> </div> <p id="popupWarning" class="popup-warning hidden" > Tu navegador puede bloquear varias pestañas emergentes. Si no se abren todas, permite las ventanas emergentes para este sitio e inténtalo de nuevo. </p> </section> <!-- ===================================================== LISTA DE URLS ===================================================== --> <section> <ul id="urlList" class="url-list" ></ul> <div id="emptyState" class="state-box" > <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="state-icon" > <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" ></path> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" ></path> </svg> <p> Aún no hay URLs. Carga uno o más archivos .txt para empezar. </p> </div> <div id="noResultsState" class="state-box hidden" > <p> Ningún resultado coincide con tu filtro. </p> </div> </section> <!-- ===================================================== PIE ===================================================== --> <footer class="footer"> <span> LinkVault · Extractor de URLs </span> <span> Tus datos se guardan localmente. Los archivos pueden copiarse a Google Drive cuando conectes tu cuenta. </span> </footer> </main> <!-- ========================================================= TOAST ========================================================= --> <div id="toastContainer" class="toast-container" ></div> <!-- ========================================================= SCRIPT DE LA APLICACIÓN ========================================================= --> <script src="script.js"></script> </body> </html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkVault · Extractor de URLs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .drive-panel { margin-top: 24px; padding: 18px 20px; border: 1px solid var(--mist-200, #dbe7f0); border-radius: 14px; background: #fff; display:flex; gap:14px; align-items:flex-start; }
+  .drive-dot { width:10px; height:10px; border-radius:50%; background:#16a34a; margin-top:6px; flex:0 0 auto; }
+  .drive-dot.offline { background:#f59e0b; }
+  .drive-panel strong { color:#123b5d; }
+  .drive-panel p { margin:4px 0 0; color:rgba(29,77,120,.62); font-size:13px; line-height:1.5; }
+  .sync-state { font-size:12px; font-weight:700; margin-left:auto; white-space:nowrap; color:#0f766e; }
+  .sync-state.offline { color:#a16207; }
+  @media(max-width:700px){ .drive-panel{align-items:flex-start}.sync-state{margin-left:0}.navbar-inner{flex-wrap:wrap} }
+</style>
+</head>
+<body>
+<header class="navbar">
+  <div class="navbar-inner">
+    <div class="brand">
+      <div class="brand-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></div>
+      <span class="brand-name">LinkVault</span>
+    </div>
+    <div id="storageBadge" class="storage-badge hidden">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h10l6 6v10z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+      Guardado en este navegador
+    </div>
+  </div>
+</header>
+
+<main class="container">
+<section class="stats-grid">
+  <div class="stat-card" style="--accent:#0ea5b7"><div class="stat-head"><span>🔗</span><span>Total de URLs</span></div><div class="stat-value" id="statTotal">0</div><p class="stat-sub">sin duplicados</p></div>
+  <div class="stat-card" style="--accent:#2563eb"><div class="stat-head"><span>📄</span><span>Archivos cargados</span></div><div class="stat-value" id="statFiles">0</div><p class="stat-sub">.txt procesados</p></div>
+  <div class="stat-card" style="--accent:#f59e0b"><div class="stat-head"><span>ⓘ</span><span>Duplicados evitados</span></div><div class="stat-value" id="statDuplicates">0</div><p class="stat-sub">no añadidos de nuevo</p></div>
+  <div class="stat-card" style="--accent:#16a34a"><div class="stat-head"><span>◷</span><span>Última actualización</span></div><div class="stat-value stat-value-sm" id="statUpdated">—</div><p class="stat-sub">hora local</p></div>
+</section>
+
+<section class="drive-panel">
+  <span id="driveDot" class="drive-dot"></span>
+  <div><strong>Google Drive</strong><p id="driveMessage">Se guardará automáticamente mediante Google Apps Script, sin ventana de inicio de sesión.</p></div>
+  <span id="syncState" class="sync-state">Configurando</span>
+</section>
+
+<section class="upload-section">
+<label id="dropZone" for="fileInput" class="drop-zone">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="drop-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+  <div class="drop-text"><p><span class="drop-highlight">Haz clic para elegir archivos</span> o arrástralos aquí</p><p class="drop-hint">Solo archivos .txt · selección múltiple permitida</p></div>
+  <input id="fileInput" type="file" accept=".txt,text/plain" multiple class="hidden">
+</label>
+<p id="fileNames" class="file-names"></p>
+</section>
+
+<section class="control-panel">
+<div class="search-row"><div class="search-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input id="searchInput" type="text" placeholder="Filtrar URLs por texto..."></div></div>
+<div class="btn-row">
+<button id="openAllBtn" class="btn btn-teal" disabled>Abrir todas</button>
+<button id="copyAllBtn" class="btn btn-neutral" disabled>Copiar todas</button>
+<button id="clearAllBtn" class="btn btn-danger btn-push-right" disabled>Limpiar lista</button>
+</div>
+<p id="popupWarning" class="popup-warning hidden">Tu navegador puede bloquear varias pestañas emergentes. Si no se abren todas, permite las ventanas emergentes para este sitio e inténtalo de nuevo.</p>
+</section>
+
+<section><ul id="urlList" class="url-list"></ul><div id="emptyState" class="state-box"><p>Aún no hay URLs. Carga uno o más archivos .txt para empezar.</p></div><div id="noResultsState" class="state-box hidden"><p>Ningún resultado coincide con tu filtro.</p></div></section>
+
+<footer class="footer"><span>LinkVault · Extractor de URLs</span><span>Los TXT y las URLs generadas se guardan en Google Drive mediante Apps Script.</span></footer>
+</main>
+<div id="toastContainer" class="toast-container"></div>
+<script src="config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
